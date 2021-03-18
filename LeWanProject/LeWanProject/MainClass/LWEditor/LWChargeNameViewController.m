@@ -315,11 +315,8 @@ PropertyString(bazi_id);
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.translucent = YES;
 
 }
-
-
-
 
 @end
