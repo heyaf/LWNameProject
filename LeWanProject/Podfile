@@ -1,0 +1,42 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'LeWanProject' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for LeWanProject
+
+
+  pod 'AFNetworking'
+  pod 'DBSphereTagCloud'
+  pod 'MPFoldTransition'
+  pod 'SDWebImage'
+  pod 'AnimatedGIFImageSerialization'
+  pod 'Masonry'
+  pod 'YYKit'
+  pod ‘Reachability’
+ 
+  pod 'SXAlertView'
+#  pod 'JMTabBarController'
+  pod 'MBProgressHUD'
+  pod 'IQKeyboardManager'
+  pod 'JSONModel'
+  pod 'BAPickView'
+
+
+
+
+
+
+  target 'LeWanProjectTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'LeWanProjectUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
