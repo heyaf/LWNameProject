@@ -9,6 +9,7 @@
 #import "LWChargeNameViewController.h"
 #import <BAPickView_OC.h>
 #import "LWNameDetailViewController.h"
+#import <PGDatePicker/PGDatePickManager.h>
 @interface LWChargeNameViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong)ZXTextField *textfile;
 
@@ -190,26 +191,41 @@ PropertyString(bazi_id);
     [self.textfile1.inputText resignFirstResponder];
     [self.textfile.inputText resignFirstResponder];
 
-    [BAKit_PickerView ba_creatPickerViewWithType:BAKit_PickerViewTypeDate configuration:^(BAKit_PickerView *tempView) {
-        
-        // 可以自由定制 NSDateFormatter
-        tempView.dateMode = BAKit_PickerViewDateModeDate;
-        tempView.dateType = BAKit_PickerViewDateTypeYMD;
-        //        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        //        formatter.dateFormat = @"yyyy年MM月dd日 HH时";
-        //        tempView.customDateFormatter = formatter;
-        // 可以自由定制按钮颜色
-        tempView.ba_buttonTitleColor_sure = [UIColor redColor];
-        tempView.ba_buttonTitleColor_cancle = [UIColor redColor];
-        tempView.animationType = BAKit_PickerViewAnimationTypeBottom;
-        
-        
-    } block:^(NSString *resultString) {
-        self.dateStr = resultString;
-        self->_textfile2.inputText.backgroundColor = RGB(254, 249, 231);
-        
-        self->_textfile2.inputText.text = resultString;
-    }];
+    PGDatePickManager *datePickManager = [[PGDatePickManager alloc]init];
+    PGDatePicker *datePicker = datePickManager.datePicker;
+    datePicker.datePickerMode = PGDatePickerModeDateHourMinute;
+    datePickManager.confirmButtonTextColor = KRedColor;
+    [self presentViewController:datePickManager animated:false completion:nil];
+    
+    datePicker.selectedDate = ^(NSDateComponents *dateComponents) {
+        NSString *month = dateComponents.month<10?[NSString stringWithFormat:@"0%li",(long)dateComponents.month]:kStringFormat(@"%li",(long)dateComponents.month);
+        NSString *day = dateComponents.day<10?[NSString stringWithFormat:@"0%li",(long)dateComponents.day]:kStringFormat(@"%li",(long)dateComponents.day);
+        NSString *dateStr = [NSString stringWithFormat:@"%li-%@-%@",(long)dateComponents.year,month,day];
+        self->_textfile2.inputText.text = [NSString stringWithFormat:@"%li-%@-%@ %li:%li",(long)dateComponents.year,month,day,(long)dateComponents.hour,(long)dateComponents.minute];
+        self.dateStr = dateStr;
+        self->_textfile2.inputText.backgroundColor = RGB(231, 231, 231);
+  
+    };
+//    [BAKit_PickerView ba_creatPickerViewWithType:BAKit_PickerViewTypeDate configuration:^(BAKit_PickerView *tempView) {
+//
+//        // 可以自由定制 NSDateFormatter
+//        tempView.dateMode = BAKit_PickerViewDateModeDate;
+//        tempView.dateType = BAKit_PickerViewDateTypeYMD;
+//        //        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        //        formatter.dateFormat = @"yyyy年MM月dd日 HH时";
+//        //        tempView.customDateFormatter = formatter;
+//        // 可以自由定制按钮颜色
+//        tempView.ba_buttonTitleColor_sure = [UIColor redColor];
+//        tempView.ba_buttonTitleColor_cancle = [UIColor redColor];
+//        tempView.animationType = BAKit_PickerViewAnimationTypeBottom;
+//
+//
+//    } block:^(NSString *resultString) {
+//        self.dateStr = resultString;
+//        self->_textfile2.inputText.backgroundColor = RGB(231, 231, 231);
+//
+//        self->_textfile2.inputText.text = resultString;
+//    }];
     
 }
 

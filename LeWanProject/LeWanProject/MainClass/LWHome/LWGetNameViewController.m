@@ -9,6 +9,7 @@
 #import "LWGetNameViewController.h"
 #import <BAPickView_OC.h>
 #import "LWNameListViewController.h"
+#import <PGDatePicker/PGDatePickManager.h>
 @interface LWGetNameViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)ZXTextField *textfile1;
@@ -225,25 +226,40 @@ PropertyString(bazi_id);
 #pragma mark ---日期选择按钮点击---
 - (void)dataButtonClicked{
     [self.textfile1.inputText resignFirstResponder];
-    [BAKit_PickerView ba_creatPickerViewWithType:BAKit_PickerViewTypeDate configuration:^(BAKit_PickerView *tempView) {
-        
-        // 可以自由定制 NSDateFormatter
-        tempView.dateMode = BAKit_PickerViewDateModeDate;
-        tempView.dateType = BAKit_PickerViewDateTypeYMD;
+    PGDatePickManager *datePickManager = [[PGDatePickManager alloc]init];
+    PGDatePicker *datePicker = datePickManager.datePicker;
+    datePicker.datePickerMode = PGDatePickerModeDateHourMinute;
+    datePickManager.confirmButtonTextColor = KRedColor;
+    [self presentViewController:datePickManager animated:false completion:nil];
 
-        // 可以自由定制按钮颜色
-        tempView.ba_buttonTitleColor_sure = [UIColor redColor];
-        tempView.ba_buttonTitleColor_cancle = [UIColor redColor];
-        tempView.animationType = BAKit_PickerViewAnimationTypeBottom;
-        
-        
-    } block:^(NSString *resultString) {
-        NSLog(@"%@",resultString);
-        self.dateStr = resultString;
+    datePicker.selectedDate = ^(NSDateComponents *dateComponents) {
+        NSString *month = dateComponents.month<10?[NSString stringWithFormat:@"0%li",(long)dateComponents.month]:kStringFormat(@"%li",(long)dateComponents.month);
+        NSString *day = dateComponents.day<10?[NSString stringWithFormat:@"0%li",(long)dateComponents.day]:kStringFormat(@"%li",(long)dateComponents.day);
+        NSString *dateStr = [NSString stringWithFormat:@"%li-%@-%@",(long)dateComponents.year,month,day];
+        self->_textfile2.inputText.text = [NSString stringWithFormat:@"%li-%@-%@ %li:%li",(long)dateComponents.year,month,day,(long)dateComponents.hour,(long)dateComponents.minute];
+        self.dateStr = dateStr;
         self->_textfile2.inputText.backgroundColor = RGB(244, 240, 232);
 
-        self->_textfile2.inputText.text = resultString;
-    }];
+    };
+//    [BAKit_PickerView ba_creatPickerViewWithType:BAKit_PickerViewTypeDate configuration:^(BAKit_PickerView *tempView) {
+//
+//        // 可以自由定制 NSDateFormatter
+//        tempView.dateMode = BAKit_PickerViewDateModeDate;
+//        tempView.dateType = BAKit_PickerViewDateTypeYMD;
+//
+//        // 可以自由定制按钮颜色
+//        tempView.ba_buttonTitleColor_sure = [UIColor redColor];
+//        tempView.ba_buttonTitleColor_cancle = [UIColor redColor];
+//        tempView.animationType = BAKit_PickerViewAnimationTypeBottom;
+//
+//
+//    } block:^(NSString *resultString) {
+//        NSLog(@"%@",resultString);
+//        self.dateStr = resultString;
+//        self->_textfile2.inputText.backgroundColor = RGB(244, 240, 232);
+//
+//        self->_textfile2.inputText.text = resultString;
+//    }];
 }
 
 #pragma mark ---确定按钮---
@@ -264,13 +280,14 @@ PropertyString(bazi_id);
         //请求的路径
         item.api = @"get_bazi_id";
         //配置请求的参数
-        item.parameters = @{
+        NSDictionary *dic = @{
                             @"first_name":self->_xingStr,
                             @"name_type":self.nametype,
                             @"sex":self.sextype,
                             @"birthday":NSStringFormat(@"%@ 12:00:00",self.dateStr),
 
                             };
+        item.parameters = dic;
         //若此接口需要调用与默认配置的服务器不同,可在此修改separateServer属性
         //请求的间隔,避免频繁发送请求给服务器,默认是:2s,如有需要单独设置,也可修改默认值
         item.requestInterval = 2.f;
