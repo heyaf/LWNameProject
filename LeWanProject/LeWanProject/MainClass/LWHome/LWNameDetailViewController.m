@@ -69,7 +69,7 @@ PropertyString(shengxiaoJY); //生肖忌用
     return _contentLabel;
 }
 - (void)creatNameListNetWorking{
-    [MBProgressHUD showInfoMessage:@"正在加载，请稍等..."];
+    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
     [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
         //请求的路径
         item.api = @"jieming";
@@ -89,7 +89,8 @@ PropertyString(shengxiaoJY); //生肖忌用
         //失败后重复次数,默认为0
         item.retryCount = 1;
     } onSuccess:^(id  _Nullable responseObject) {
-   
+        [[SCCatWaitingHUD sharedInstance] stop];
+
         self.namemodel = [LWNameModel modelWithDictionary:responseObject[@"name"]];
         self.pingfen = responseObject[@"sanCai"][@"JiXiong"];
         NSArray *ziyiArr = responseObject[@"ziyi"];
@@ -131,10 +132,9 @@ PropertyString(shengxiaoJY); //生肖忌用
         [self.tableView reloadData];
         DLog(@"-%@",responseObject);
     } onFailure:^(NSError * _Nullable error) {
-        NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-        NSDictionary *serializedData = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
-        [MBProgressHUD showErrorMessage:serializedData[@"msg"]];
-        NSLog(@"error-123-%@",serializedData);
+        [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
+        [[SCCatWaitingHUD sharedInstance] stop];
+
     } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
         
     }];

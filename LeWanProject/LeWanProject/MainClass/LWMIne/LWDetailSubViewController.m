@@ -43,7 +43,7 @@
 }
 - (void)ButtonClicked{
     [UIPasteboard generalPasteboard].string =@"ccc666888ooo";
-    [MBProgressHUD showSuccessMessage:@"客服微信号已复制到粘贴板"];
+    [SVProgressHUD showSuccessWithStatus:@"客服微信号已复制到粘贴板"];
 }
 
 

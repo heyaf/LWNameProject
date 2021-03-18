@@ -33,7 +33,8 @@ PropertyNSMutableArray(NameArray);
 }
 
 - (void)creatNameListNetWorking{
-    [MBProgressHUD showInfoMessage:@"正在加载，请稍等..."];
+//    [MBProgressHUD showInfoMessage:@"正在加载，请稍等..."];
+    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
     [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
         //请求的路径
         item.api = @"qiming";
@@ -53,7 +54,7 @@ PropertyNSMutableArray(NameArray);
         //失败后重复次数,默认为0
         item.retryCount = 1;
     } onSuccess:^(id  _Nullable responseObject) {
-        [MBProgressHUD hideHUD];
+        [[SCCatWaitingHUD sharedInstance] stop];
         self.NameArray = [LWNameModel arrayOfModelsFromDictionaries:responseObject[@"tjm"] error:nil];
         [self creatDate];
         self.bazi_guanjainzi = responseObject[@"info"][@"jianPi"][@"tag"];
@@ -61,11 +62,10 @@ PropertyNSMutableArray(NameArray);
         [self creatUI];
         
     } onFailure:^(NSError * _Nullable error) {
-//        NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-//        NSDictionary *serializedData = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
-        [MBProgressHUD showErrorMessage:error.description];
+        [[SCCatWaitingHUD sharedInstance] stop];
 
-//        NSLog(@"error-123-%@",serializedData);
+        [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
+
     } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
         
     }];

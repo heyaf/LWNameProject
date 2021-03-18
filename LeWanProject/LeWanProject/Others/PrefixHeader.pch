@@ -13,20 +13,19 @@
 
 #import "RadioButton.h"
 #import "FGRequestCenter.h"
-#import "MBProgressHUD+XY.h"
 #import "UIView+TBFrame.h"
 
 
 /*-------三方库------*/
 #import <AFNetworking/AFNetworking.h>
 #import <Masonry.h>
-#import <MBProgressHUD.h>
 #import <IQKeyboardManager.h>
 #import <JSONModel.h>
 #import <SXAlertView.h>
 #import <SDImageCache.h>
 #import <YYKit.h>
-
+#import <SCCatWaitingHUD/SCCatWaitingHUD.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 
 

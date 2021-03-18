@@ -23,9 +23,9 @@ target 'LeWanProject' do
   pod 'IQKeyboardManager'
   pod 'JSONModel'
   pod 'BAPickView'
-
-
-
+  pod 'SCCatWaitingHUD'
+  pod 'SVProgressHUD'
+  pod 'PGDatePicker'
 
 
 

@@ -216,7 +216,7 @@ PropertyString(bazi_id);
 #pragma mark ---确定按钮---
 -(void)makesureBtnClicked{
     if (self.dateStr.length==0||self.textfile1.inputText.text.length==0||self.textfile.inputText.text.length==0) {
-        [MBProgressHUD showWarnMessage:@"请完整输入您的信息"];
+        [SVProgressHUD showErrorWithStatus:@"请完整输入您的信息"];
     }else{
         _xingStr = self.textfile.inputText.text;
         _MingStr = self.textfile1.inputText.text;
@@ -227,6 +227,7 @@ PropertyString(bazi_id);
     DLog(@"确定按钮%@,%@,%@,%@",_nametype,_sextype,self.textfile1.inputText.text,_dateStr);}
 
 - (void)getNetWorking{
+    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
     [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
         //请求的路径
         item.api = @"get_bazi_id";
@@ -249,11 +250,11 @@ PropertyString(bazi_id);
     } onSuccess:^(id  _Nullable responseObject) {
         self.bazi_id = responseObject[@"bazi_id"];
         [self goDetailController];
+        [[SCCatWaitingHUD sharedInstance] stop];
         //成功回调
     } onFailure:^(NSError * _Nullable error) {
-        NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-        NSDictionary *serializedData = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
-        [MBProgressHUD showErrorMessage:serializedData[@"msg"]];
+        [[SCCatWaitingHUD sharedInstance] stop];
+
         //失败回调
     } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
         //请求完成回调(不论成功或失败)

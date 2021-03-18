@@ -249,7 +249,8 @@ PropertyString(bazi_id);
 #pragma mark ---确定按钮---
 -(void)makesureBtnClicked{
     if (self.dateStr.length==0||self.textfile1.inputText.text.length==0) {
-        [MBProgressHUD showWarnMessage:@"请正确输入您的信息"];
+//        [MBProgressHUD showWarnMessage:@"请正确输入您的信息"];
+        [SVProgressHUD showInfoWithStatus:@"请正确输入您的信息"];
     }else{
         _xingStr = self.textfile1.inputText.text;
         [self getNetWorking];
@@ -283,9 +284,8 @@ PropertyString(bazi_id);
         [self goDetailController];
         //成功回调
     } onFailure:^(NSError * _Nullable error) {
-        NSData *errorData = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-        NSDictionary *serializedData = [NSJSONSerialization JSONObjectWithData: errorData options:kNilOptions error:nil];
-        [MBProgressHUD showErrorMessage:serializedData[@"msg"]];
+
+        [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
         //失败回调
     } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
         //请求完成回调(不论成功或失败)

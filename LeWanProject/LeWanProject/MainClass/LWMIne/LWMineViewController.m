@@ -33,7 +33,7 @@
     if ([title isEqualToString:@"清除缓存"]) {
         NSString *str = [self getCacheSize];
         NSString *infoStr = NSStringFormat(@"已清除%@缓存",str);
-        [MBProgressHUD showSuccessMessage:infoStr];
+        [SVProgressHUD showSuccessWithStatus:infoStr];
     }else if ([title isEqualToString:@"使用说明"]){
         [SXAlertView showWithTitle:nil image:IMAGE_NAMED(@"bgBottom") cancelButtonTitle:nil otherButtonTitle:@"确定" clickButtonBlock:^(SXAlertView * _Nonnull alertView, NSInteger buttonIndex) {
             
