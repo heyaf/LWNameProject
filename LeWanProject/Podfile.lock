@@ -1,19 +1,11 @@
 PODS:
-  - AFNetworking (3.2.1):
-    - AFNetworking/NSURLSession (= 3.2.1)
-    - AFNetworking/Reachability (= 3.2.1)
-    - AFNetworking/Security (= 3.2.1)
-    - AFNetworking/Serialization (= 3.2.1)
-    - AFNetworking/UIKit (= 3.2.1)
-  - AFNetworking/NSURLSession (3.2.1):
+  - AFNetworking/NSURLSession (4.0.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.2.1)
-  - AFNetworking/Security (3.2.1)
-  - AFNetworking/Serialization (3.2.1)
-  - AFNetworking/UIKit (3.2.1):
-    - AFNetworking/NSURLSession
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
   - AnimatedGIFImageSerialization (0.2.0)
   - BAPickView (1.1.6)
   - DBSphereTagCloud (1.0.0)
@@ -37,7 +29,10 @@ PODS:
   - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
-  - AFNetworking
+  - AFNetworking/NSURLSession
+  - AFNetworking/Reachability
+  - AFNetworking/Security
+  - AFNetworking/Serialization
   - AnimatedGIFImageSerialization
   - BAPickView
   - DBSphereTagCloud
@@ -56,7 +51,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - AFNetworking
     - AnimatedGIFImageSerialization
     - BAPickView
     - IQKeyboardManager
@@ -67,6 +61,7 @@ SPEC REPOS:
     - SXAlertView
     - YYKit
   trunk:
+    - AFNetworking
     - DBSphereTagCloud
     - MPFoldTransition
     - PGDatePicker
@@ -76,7 +71,7 @@ SPEC REPOS:
     - SVProgressHUD
 
 SPEC CHECKSUMS:
-  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   AnimatedGIFImageSerialization: b0f0cfe71eac1ee45a3d57ae533c23b8e6f29501
   BAPickView: 6170bc246c6d4ca37188835a248ed82f985643e7
   DBSphereTagCloud: 57b9571e93b3565fc22cd65040eabbada06b56f2
@@ -94,6 +89,6 @@ SPEC CHECKSUMS:
   SXAlertView: de20ffbd3c63df4bece9bc344d209682d1919137
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 8323a8c70e5eee4e659c8d7f4805d6f2245239d1
+PODFILE CHECKSUM: 45cb98a3dc074f6c345be1de2e6e44f21b02dd46
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.1

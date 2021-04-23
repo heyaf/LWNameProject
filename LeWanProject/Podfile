@@ -8,7 +8,8 @@ target 'LeWanProject' do
   # Pods for LeWanProject
 
 
-  pod 'AFNetworking'
+pod 'AFNetworking', :subspecs => ['Serialization', 'Security', 'NSURLSession', 'Reachability', 'Serialization']
+#  pod 'AFNetworking'
   pod 'DBSphereTagCloud'
   pod 'MPFoldTransition'
   pod 'SDWebImage'

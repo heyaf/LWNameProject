@@ -9,9 +9,9 @@
 #import "FGRequestEngine.h"
 #import "FGRequestItem.h"
 #import "FGRequestConst.h"
-#import "AFNetworking.h"
+#import <AFNetworking/AFHTTPSessionManager.h>
 #import <objc/runtime.h>
-#import "AFNetworkActivityIndicatorManager.h"
+//#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "FGNetworkStatus.h"
 
@@ -65,7 +65,7 @@ static NSString * const kFGRequestBindingKey = @"kFGRequestBindingKey";
 - (instancetype)init
 {
     if (self = [super init]) {
-        [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+//        [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
         _selfLock = dispatch_semaphore_create(1);
     }
     return self;
@@ -112,10 +112,16 @@ static NSString * const kFGRequestBindingKey = @"kFGRequestBindingKey";
     urlRequest.timeoutInterval = item.timeoutInterval;
     NSURLSessionDataTask *dataTask = nil;
     __weak __typeof(self)weakSelf = self;
-    dataTask = [self.sessionManager dataTaskWithRequest:urlRequest completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+    [self.sessionManager dataTaskWithRequest:urlRequest
+                              uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         [strongSelf processResponse:response object:responseObject error:error requestItem:item completionHandler:completionHandler];
     }];
+ 
     NSString *identifier = [NSString stringWithFormat:@"%lu",(unsigned long)dataTask.taskIdentifier];
     [item setValue:identifier forKey:@"_identifier"];
     [dataTask bindingRequestItem:item];
