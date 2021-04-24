@@ -11,6 +11,8 @@
 #import "CQScrollMenuView.h"
 #import "UIView+frameAdjust.h"
 #import "ZScrollLabel.h"
+#import <AdSupport/AdSupport.h>
+
 @interface LWNameDetailViewController ()<CQScrollMenuViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) CQScrollMenuView *menuView;
@@ -69,78 +71,131 @@ PropertyString(shengxiaoJY); //生肖忌用
     return _contentLabel;
 }
 - (void)creatNameListNetWorking{
-    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
-    [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
-        //请求的路径
-        item.api = @"jieming";
-        //配置请求的参数
-        item.parameters = @{
-                            @"first_name":self.xing,
-                            @"last_name":self.mingzi,
-                            @"bazi_id":self.bazi_id,
-                            
-                            };
-        //若此接口需要调用与默认配置的服务器不同,可在此修改separateServer属性
-        //请求的间隔,避免频繁发送请求给服务器,默认是:2s,如有需要单独设置,也可修改默认值
-        item.requestInterval = 2.f;
-        //如果在间隔内发送请求,到时后是否继续处理,默认是NO,不做处理
-        item.isFrequentContinue = NO;
-        item.httpMethod = 1;
-        //失败后重复次数,默认为0
-        item.retryCount = 1;
-    } onSuccess:^(id  _Nullable responseObject) {
-        [[SCCatWaitingHUD sharedInstance] stop];
+    
+    AFHTTPSessionManager *manager =[AFHTTPSessionManager manager];
 
-        self.namemodel = [LWNameModel modelWithDictionary:responseObject[@"name"]];
-        self.pingfen = responseObject[@"sanCai"][@"JiXiong"];
-        NSArray *ziyiArr = responseObject[@"ziyi"];
-        self.ziyi= @"";
-        for (int i=0; i<ziyiArr.count; i++) {
-            NSDictionary *ziyiDic = ziyiArr[i];
-            if (i==0) {
-                self.ziyi = [self.ziyi stringByAppendingString:NSStringFormat(@"%@",ziyiDic[@"title"])];
-            }else{
-                self.ziyi = [self.ziyi stringByAppendingString:NSStringFormat(@"\n\n\n%@",ziyiDic[@"title"])];
+    NSDictionary *dic = @{
+                        @"first_name":self.xing,
+                        @"last_name":self.mingzi,
+                        @"bazi_id":self.bazi_id,
+                        @"appname":@"naming_fugui_iphone",
+                        @"client":@"iPhone",
+                        @"device":@"iPhone",
+                        @"market":@"appstore",
+                        @"openudid":@"82257E72-44DC-43AD-A6AF-26BF2DF4B676",
+                        @"sign":@"52ece8b5537a9ddbdbc8e3a478fa64ed",
+                        @"ver":@"1.8",
+                        @"idfa":[self getIDFA],
+                        @"user_id":@""
+
+                        };
+    NSString *urlStr = @"jieming";
+    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
+
+    [manager POST:[baseUrl stringByAppendingString:urlStr] parameters:dic headers:@{} progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *dateDic = (NSDictionary *)responseObject[@"data"];
+            [[SCCatWaitingHUD sharedInstance] stop];
+
+            self.namemodel = [LWNameModel modelWithDictionary:dateDic[@"name"]];
+            self.pingfen = dateDic[@"sanCai"][@"JiXiong"];
+            NSArray *ziyiArr = dateDic[@"ziyi"];
+            self.ziyi= @"";
+            for (int i=0; i<ziyiArr.count; i++) {
+                NSDictionary *ziyiDic = ziyiArr[i];
+                if (i==0) {
+                    self.ziyi = [self.ziyi stringByAppendingString:NSStringFormat(@"%@",ziyiDic[@"title"])];
+                }else{
+                    self.ziyi = [self.ziyi stringByAppendingString:NSStringFormat(@"\n\n\n%@",ziyiDic[@"title"])];
+                }
+                
+                self.ziyi = [self.ziyi stringByAppendingString:NSStringFormat(@"\n %@",ziyiDic[@"content"])];
+            }
+            self.bazixishen = NSStringFormat(@"八字喜用的建议：\n\n%@",dateDic[@"zongGe"][@"bazixishen"]);
+            
+            NSArray *sancaiArr = dateDic[@"scwgxj"][@"content"];
+            self.sancaiMutArr = [NSMutableArray arrayWithCapacity:0];
+            for (int i=0; i<sancaiArr.count; i++) {
+                NSDictionary *sancaiDic = sancaiArr[i];
+                NSMutableAttributedString *str= [[NSMutableAttributedString alloc] initWithString:NSStringFormat(@"%@\n%@",sancaiDic[@"title"],sancaiDic[@"detail"])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,2)];
+                
+                [self.sancaiMutArr addObject:str];
             }
             
-            self.ziyi = [self.ziyi stringByAppendingString:NSStringFormat(@"\n %@",ziyiDic[@"content"])];
-        }
-        self.bazixishen = NSStringFormat(@"八字喜用的建议：\n\n%@",responseObject[@"zongGe"][@"bazixishen"]);
-        
-        NSArray *sancaiArr = responseObject[@"scwgxj"][@"content"];
-        self.sancaiMutArr = [NSMutableArray arrayWithCapacity:0];
-        for (int i=0; i<sancaiArr.count; i++) {
-            NSDictionary *sancaiDic = sancaiArr[i];
-            NSMutableAttributedString *str= [[NSMutableAttributedString alloc] initWithString:NSStringFormat(@"%@\n%@",sancaiDic[@"title"],sancaiDic[@"detail"])];
-            [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0,2)];
+            self.Wugexijie = @"";
             
-            [self.sancaiMutArr addObject:str];
-        }
-        
-        self.Wugexijie = @"";
-        
-        self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"%@",responseObject[@"wgxj"][@"di"][@"content"])];
-        self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@",responseObject[@"wgxj"][@"ren"][@"content"])];
-        self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@",responseObject[@"wgxj"][@"zong"][@"content"])];
-        self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@",responseObject[@"wgxj"][@"wai"][@"content"])];
-        self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@\n",responseObject[@"wgxj"][@"tian"][@"content"])];
-        
-        self.shengxiaoYY = responseObject[@"zodiac"][@"xiYong"];
-        self.shengxiaoJY = responseObject[@"zodiac"][@"jiYong"];
-        self.shengxiao = responseObject[@"orderInfo"][@"shengXiao"];
-        
-        [self.tableView reloadData];
-        DLog(@"-%@",responseObject);
-    } onFailure:^(NSError * _Nullable error) {
-        [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
-        [[SCCatWaitingHUD sharedInstance] stop];
+            self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"%@",dateDic[@"wgxj"][@"di"][@"content"])];
+            self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@",dateDic[@"wgxj"][@"ren"][@"content"])];
+            self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@",dateDic[@"wgxj"][@"zong"][@"content"])];
+            self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@",dateDic[@"wgxj"][@"wai"][@"content"])];
+            self.Wugexijie = [self.Wugexijie stringByAppendingString:NSStringFormat(@"\n\n%@\n",dateDic[@"wgxj"][@"tian"][@"content"])];
+            
+            self.shengxiaoYY = dateDic[@"zodiac"][@"xiYong"];
+            self.shengxiaoJY = dateDic[@"zodiac"][@"jiYong"];
+            self.shengxiao = dateDic[@"orderInfo"][@"shengXiao"];
+            
+            [self.tableView reloadData];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [[SCCatWaitingHUD sharedInstance] stop];
 
-    } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
-        
-    }];
+            [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
+        }];
+//    
+//    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
+//    [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
+//        //请求的路径
+//        item.api = @"jieming";
+//        //配置请求的参数
+//        item.parameters = @{
+//
+//                            
+//                            };
+//        //若此接口需要调用与默认配置的服务器不同,可在此修改separateServer属性
+//        //请求的间隔,避免频繁发送请求给服务器,默认是:2s,如有需要单独设置,也可修改默认值
+//        item.requestInterval = 2.f;
+//        //如果在间隔内发送请求,到时后是否继续处理,默认是NO,不做处理
+//        item.isFrequentContinue = NO;
+//        item.httpMethod = 1;
+//        //失败后重复次数,默认为0
+//        item.retryCount = 1;
+//    } onSuccess:^(id  _Nullable responseObject) {
+//        
+//        DLog(@"-%@",responseObject);
+//    } onFailure:^(NSError * _Nullable error) {
+//        [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
+//        [[SCCatWaitingHUD sharedInstance] stop];
+//
+//    } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
+//        
+//    }];
     
     
     
+}
+// 获取IDFA的方法
+-(NSString *)getIDFA
+{
+    SEL advertisingIdentifierSel = sel_registerName("advertisingIdentifier");
+    SEL UUIDStringSel = sel_registerName("UUIDString");
+
+    ASIdentifierManager *manager = [ASIdentifierManager sharedManager];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if([manager respondsToSelector:advertisingIdentifierSel]) {
+
+        id UUID = [manager performSelector:advertisingIdentifierSel];
+
+        if([UUID respondsToSelector:UUIDStringSel]) {
+
+            return [UUID performSelector:UUIDStringSel];
+
+        }
+
+    }
+#pragma clang diagnostic pop
+    return nil;
 }
 #pragma mark - Delegate - 菜单栏
 // 菜单按钮点击时回调

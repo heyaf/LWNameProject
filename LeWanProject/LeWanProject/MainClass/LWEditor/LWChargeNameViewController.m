@@ -10,6 +10,8 @@
 #import <BAPickView_OC.h>
 #import "LWNameDetailViewController.h"
 #import <PGDatePicker/PGDatePickManager.h>
+#import <AdSupport/AdSupport.h>
+
 @interface LWChargeNameViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong)ZXTextField *textfile;
 
@@ -185,7 +187,29 @@ PropertyString(bazi_id);
    
     
 }
+// 获取IDFA的方法
+-(NSString *)getIDFA
+{
+    SEL advertisingIdentifierSel = sel_registerName("advertisingIdentifier");
+    SEL UUIDStringSel = sel_registerName("UUIDString");
 
+    ASIdentifierManager *manager = [ASIdentifierManager sharedManager];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if([manager respondsToSelector:advertisingIdentifierSel]) {
+
+        id UUID = [manager performSelector:advertisingIdentifierSel];
+
+        if([UUID respondsToSelector:UUIDStringSel]) {
+
+            return [UUID performSelector:UUIDStringSel];
+
+        }
+
+    }
+#pragma clang diagnostic pop
+    return nil;
+}
 #pragma mark ---日期选择按钮点击---
 - (void)dataButtonClicked{
     [self.textfile1.inputText resignFirstResponder];
@@ -243,38 +267,44 @@ PropertyString(bazi_id);
     DLog(@"确定按钮%@,%@,%@,%@",_nametype,_sextype,self.textfile1.inputText.text,_dateStr);}
 
 - (void)getNetWorking{
-    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
-    [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
-        //请求的路径
-        item.api = @"get_bazi_id";
-        //配置请求的参数
-        item.parameters = @{
-                            @"first_name":self->_xingStr,
-                            @"name_type":self.nametype,
-                            @"sex":self.sextype,
-                            @"birthday":NSStringFormat(@"%@ 12:00:00",self.dateStr),
-                            
-                            };
-        //若此接口需要调用与默认配置的服务器不同,可在此修改separateServer属性
-        //请求的间隔,避免频繁发送请求给服务器,默认是:2s,如有需要单独设置,也可修改默认值
-        item.requestInterval = 2.f;
-        //如果在间隔内发送请求,到时后是否继续处理,默认是NO,不做处理
-        item.isFrequentContinue = NO;
-        item.httpMethod = 1;
-        //失败后重复次数,默认为0
-        item.retryCount = 1;
-    } onSuccess:^(id  _Nullable responseObject) {
-        self.bazi_id = responseObject[@"bazi_id"];
-        [self goDetailController];
-        [[SCCatWaitingHUD sharedInstance] stop];
-        //成功回调
-    } onFailure:^(NSError * _Nullable error) {
-        [[SCCatWaitingHUD sharedInstance] stop];
+    
+    AFHTTPSessionManager *manager =[AFHTTPSessionManager manager];
 
-        //失败回调
-    } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
-        //请求完成回调(不论成功或失败)
-    }];
+    NSDictionary *dic = @{
+                        @"first_name":self->_xingStr,
+                        @"name_type":self.nametype,
+                        @"sex":self.sextype,
+                        @"birthday":NSStringFormat(@"%@ 12:00:00",self.dateStr),
+                        @"appname":@"naming_fugui_iphone",
+                        @"client":@"iPhone",
+                        @"device":@"iPhone",
+                        @"market":@"appstore",
+                        @"openudid":@"82257E72-44DC-43AD-A6AF-26BF2DF4B676",
+                        @"sign":@"52ece8b5537a9ddbdbc8e3a478fa64ed",
+                        @"ver":@"1.8",
+                        @"idfa":[self getIDFA],
+                        @"user_id":@""
+
+                        };
+    NSString *urlStr = @"get_bazi_id";
+    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
+
+    [manager POST:[baseUrl stringByAppendingString:urlStr] parameters:dic headers:@{} progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *dateDic = (NSDictionary *)responseObject[@"data"];
+            [[SCCatWaitingHUD sharedInstance] stop];
+
+            self.bazi_id = dateDic[@"bazi_id"];
+            [self goDetailController];
+            [[SCCatWaitingHUD sharedInstance] stop];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [[SCCatWaitingHUD sharedInstance] stop];
+
+            [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
+        }];
+    
+
 }
 -(void)goDetailController{
     LWNameDetailViewController *nameVC = [[LWNameDetailViewController alloc] init];

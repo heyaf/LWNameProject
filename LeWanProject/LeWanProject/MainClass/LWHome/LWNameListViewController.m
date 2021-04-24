@@ -11,6 +11,9 @@
 #import "ZYCarModel.h"
 #import "LWNameModel.h"
 #import "LWNameDetailViewController.h"
+#import <AdSupport/AdSupport.h>
+
+
 @interface LWNameListViewController ()
 PropertyString(bazi_guanjainzi); //八字关键字
 PropertyString(bazi_jiexi);  //八字解析
@@ -33,45 +36,67 @@ PropertyNSMutableArray(NameArray);
 }
 
 - (void)creatNameListNetWorking{
-//    [MBProgressHUD showInfoMessage:@"正在加载，请稍等..."];
+    AFHTTPSessionManager *manager =[AFHTTPSessionManager manager];
+
+    NSDictionary *dic = @{
+                        @"first_name":self.firstname,
+                        @"name_type":self.name_type,
+                        @"bazi_id":self.bazi_id,
+                        @"appname":@"naming_fugui_iphone",
+                        @"client":@"iPhone",
+                        @"device":@"iPhone",
+                        @"market":@"appstore",
+                        @"openudid":@"82257E72-44DC-43AD-A6AF-26BF2DF4B676",
+                        @"sign":@"52ece8b5537a9ddbdbc8e3a478fa64ed",
+                        @"ver":@"1.8",
+                        @"idfa":[self getIDFA],
+                        @"user_id":@""
+
+                        };
+    NSString *urlStr = @"qiming";
     [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
-    [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
-        //请求的路径
-        item.api = @"qiming";
-        //配置请求的参数
-        item.parameters = @{
-                            @"first_name":self.firstname,
-                            @"name_type":self.name_type,
-                            @"bazi_id":self.bazi_id,
-                            
-                            };
-        //若此接口需要调用与默认配置的服务器不同,可在此修改separateServer属性
-        //请求的间隔,避免频繁发送请求给服务器,默认是:2s,如有需要单独设置,也可修改默认值
-        item.requestInterval = 2.f;
-        //如果在间隔内发送请求,到时后是否继续处理,默认是NO,不做处理
-        item.isFrequentContinue = NO;
-        item.httpMethod = 1;
-        //失败后重复次数,默认为0
-        item.retryCount = 1;
-    } onSuccess:^(id  _Nullable responseObject) {
-        [[SCCatWaitingHUD sharedInstance] stop];
-        self.NameArray = [LWNameModel arrayOfModelsFromDictionaries:responseObject[@"tjm"] error:nil];
-        [self creatDate];
-        self.bazi_guanjainzi = responseObject[@"info"][@"jianPi"][@"tag"];
-        self.bazi_jiexi = responseObject[@"info"][@"jianPi"][@"content"];
-        [self creatUI];
-        
-    } onFailure:^(NSError * _Nullable error) {
-        [[SCCatWaitingHUD sharedInstance] stop];
 
-        [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
+    [manager POST:[baseUrl stringByAppendingString:urlStr] parameters:dic headers:@{} progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *dateDic = (NSDictionary *)responseObject[@"data"];
+            [[SCCatWaitingHUD sharedInstance] stop];
+            self.NameArray = [LWNameModel arrayOfModelsFromDictionaries:dateDic[@"tjm"] error:nil];
+            [self creatDate];
+            self.bazi_guanjainzi = dateDic[@"info"][@"jianPi"][@"tag"];
+            self.bazi_jiexi = dateDic[@"info"][@"jianPi"][@"content"];
+            [self creatUI];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            [[SCCatWaitingHUD sharedInstance] stop];
 
-    } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
-        
-    }];
+            [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
+        }];
     
     
-    
+}
+
+// 获取IDFA的方法
+-(NSString *)getIDFA
+{
+    SEL advertisingIdentifierSel = sel_registerName("advertisingIdentifier");
+    SEL UUIDStringSel = sel_registerName("UUIDString");
+
+    ASIdentifierManager *manager = [ASIdentifierManager sharedManager];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    if([manager respondsToSelector:advertisingIdentifierSel]) {
+
+        id UUID = [manager performSelector:advertisingIdentifierSel];
+
+        if([UUID respondsToSelector:UUIDStringSel]) {
+
+            return [UUID performSelector:UUIDStringSel];
+
+        }
+
+    }
+#pragma clang diagnostic pop
+    return nil;
 }
 -(void)creatDate{
     NSMutableArray *array = [[NSMutableArray alloc]init];

@@ -28,7 +28,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 
 
-
+#define baseUrl @"http://name.daomobile.cn/api/fugui/ios/v2/"
 
 
 
