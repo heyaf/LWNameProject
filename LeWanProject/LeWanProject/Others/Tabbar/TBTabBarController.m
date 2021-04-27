@@ -14,6 +14,7 @@
 #import "LWGetNameViewController.h"
 #import "LWChargeNameViewController.h"
 #import "LWMineViewController.h"
+#import "LWFindMoreVC.h"
 
 @interface TBTabBarController ()<UITabBarControllerDelegate>
 @property (nonatomic,strong) UITabBarAppearance *tabBarAppearance;
@@ -102,6 +103,8 @@
 
     [self setChildVC:[LWGetNameViewController new] title:@"起名" image:@"home" selectedImage:@"home_select"];
     [self setChildVC:[LWChargeNameViewController new] title:@"测名" image:@"bianji" selectedImage:@"bianji_select"];
+    [self setChildVC:[LWFindMoreVC new] title:@"更多" image:@"findIcon" selectedImage:@"findIcon_select"];
+
     [self setChildVC:[LWMineViewController new] title:@"我的" image:@"mine" selectedImage:@"mine_select"];
 
 }

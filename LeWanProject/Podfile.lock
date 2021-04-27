@@ -7,8 +7,12 @@ PODS:
   - AFNetworking/Security (4.0.1)
   - AFNetworking/Serialization (4.0.1)
   - AnimatedGIFImageSerialization (0.2.0)
+  - BaiduMobStatCodeless (5.3.3)
   - BAPickView (1.1.6)
   - DBSphereTagCloud (1.0.0)
+  - GDTMobSDK (4.12.60):
+    - GDTMobSDK/GDTMobSDK (= 4.12.60)
+  - GDTMobSDK/GDTMobSDK (4.12.60)
   - IQKeyboardManager (6.2.0)
   - JSONModel (1.8.0)
   - Masonry (1.1.0)
@@ -34,8 +38,10 @@ DEPENDENCIES:
   - AFNetworking/Security
   - AFNetworking/Serialization
   - AnimatedGIFImageSerialization
+  - BaiduMobStatCodeless
   - BAPickView
   - DBSphereTagCloud
+  - GDTMobSDK
   - IQKeyboardManager
   - JSONModel
   - Masonry
@@ -62,7 +68,9 @@ SPEC REPOS:
     - YYKit
   trunk:
     - AFNetworking
+    - BaiduMobStatCodeless
     - DBSphereTagCloud
+    - GDTMobSDK
     - MPFoldTransition
     - PGDatePicker
     - PGPickerView
@@ -73,8 +81,10 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   AnimatedGIFImageSerialization: b0f0cfe71eac1ee45a3d57ae533c23b8e6f29501
+  BaiduMobStatCodeless: 198e04ed005f6f6c467886959c040a1c7d5b3236
   BAPickView: 6170bc246c6d4ca37188835a248ed82f985643e7
   DBSphereTagCloud: 57b9571e93b3565fc22cd65040eabbada06b56f2
+  GDTMobSDK: fcaaeaf16af7203627e4e5d2ab81949c158e3d9c
   IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
@@ -89,6 +99,6 @@ SPEC CHECKSUMS:
   SXAlertView: de20ffbd3c63df4bece9bc344d209682d1919137
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 45cb98a3dc074f6c345be1de2e6e44f21b02dd46
+PODFILE CHECKSUM: e00ca36358f6792d3473663e173f0d8f10a2ea99
 
 COCOAPODS: 1.10.1

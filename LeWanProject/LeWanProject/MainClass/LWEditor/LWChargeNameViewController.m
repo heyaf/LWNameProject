@@ -11,8 +11,12 @@
 #import "LWNameDetailViewController.h"
 #import <PGDatePicker/PGDatePickManager.h>
 #import <AdSupport/AdSupport.h>
+#import "ZXTextField.h"
+#import <GDTUnifiedBannerView.h>
 
-@interface LWChargeNameViewController ()<UITextFieldDelegate>
+@interface LWChargeNameViewController ()<UITextFieldDelegate,GDTUnifiedBannerViewDelegate>
+@property (nonatomic, strong) GDTUnifiedBannerView *bannerView;
+
 @property (nonatomic,strong)ZXTextField *textfile;
 
 @property (nonatomic,strong)ZXTextField *textfile1;
@@ -47,9 +51,39 @@ PropertyString(bazi_id);
     _nametype = @"2";
     _sextype = @"2";
     
-    [self CreatData];
     [self creatUI];
+    [self loadAdAndShow:nil];
 }
+- (void)loadAdAndShow:(id)sender {
+      if (self.bannerView.superview) {
+          [self.bannerView removeFromSuperview];
+      }
+      [self.view addSubview:self.bannerView];
+    [_bannerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.view).mas_offset(0);
+        make.left.mas_equalTo(self.view).mas_offset(0);
+        make.right.mas_equalTo(self.view).mas_offset(0);
+        make.height.mas_offset(100);
+    }];
+      [self.bannerView loadAdAndShow];
+  }
+
+
+- (GDTUnifiedBannerView *)bannerView
+  {
+    if (!_bannerView) {
+        CGRect rect = CGRectMake(0, 0, kScreenWidth, 100);
+        _bannerView = [[GDTUnifiedBannerView alloc]
+                       initWithFrame:rect
+                       placementId:kGDTSDKBanner
+                       viewController:self];
+   
+        _bannerView.animated = YES;
+        _bannerView.autoSwitchInterval = 5;
+        _bannerView.delegate = self;
+    }
+    return _bannerView;
+  }
 
 - (void)creatUI{
 //    [self createMoreBtn];
@@ -183,10 +217,7 @@ PropertyString(bazi_id);
     
     [buttonsArray[0] setSelected:YES]; // 初始化第一个按钮为选中状态
 }
-- (void) CreatData{
-   
-    
-}
+
 // 获取IDFA的方法
 -(NSString *)getIDFA
 {
@@ -365,5 +396,88 @@ PropertyString(bazi_id);
     self.navigationController.navigationBar.translucent = YES;
 
 }
+#pragma mark - GDTUnifiedBannerViewDelegate
+/**
+ *  请求广告条数据成功后调用
+ *  当接收服务器返回的广告数据成功后调用该函数
+ */
+- (void)unifiedBannerViewDidLoad:(GDTUnifiedBannerView *)unifiedBannerView
+{
+    NSLog(@"%s",__FUNCTION__);
+    NSLog(@"unified banner did load");
+}
 
+/**
+ *  请求广告条数据失败后调用
+ *  当接收服务器返回的广告数据失败后调用该函数
+ */
+
+- (void)unifiedBannerViewFailedToLoad:(GDTUnifiedBannerView *)unifiedBannerView error:(NSError *)error
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  banner2.0曝光回调
+ */
+- (void)unifiedBannerViewWillExpose:(nonnull GDTUnifiedBannerView *)unifiedBannerView {
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  banner2.0点击回调
+ */
+- (void)unifiedBannerViewClicked:(GDTUnifiedBannerView *)unifiedBannerView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  应用进入后台时调用
+ *  当点击应用下载或者广告调用系统程序打开，应用将被自动切换到后台
+ */
+- (void)unifiedBannerViewWillLeaveApplication:(GDTUnifiedBannerView *)unifiedBannerView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  全屏广告页已经被关闭
+ */
+- (void)unifiedBannerViewDidDismissFullScreenModal:(GDTUnifiedBannerView *)unifiedBannerView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  全屏广告页即将被关闭
+ */
+- (void)unifiedBannerViewWillDismissFullScreenModal:(GDTUnifiedBannerView *)unifiedBannerView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  banner2.0广告点击以后即将弹出全屏广告页
+ */
+- (void)unifiedBannerViewWillPresentFullScreenModal:(GDTUnifiedBannerView *)unifiedBannerView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  banner2.0广告点击以后弹出全屏广告页完毕
+ */
+- (void)unifiedBannerViewDidPresentFullScreenModal:(GDTUnifiedBannerView *)unifiedBannerView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+/**
+ *  banner2.0被用户关闭时调用
+ */
+- (void)unifiedBannerViewWillClose:(nonnull GDTUnifiedBannerView *)unifiedBannerView {
+    self.bannerView = nil;
+    NSLog(@"%s",__FUNCTION__);
+}
 @end

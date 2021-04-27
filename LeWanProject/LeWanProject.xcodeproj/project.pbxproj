@@ -92,6 +92,8 @@
 		ABE0E3A92601991F00044606 /* LZHPersonalCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE0E3702601991E00044606 /* LZHPersonalCenterView.m */; };
 		ABE0E3AA2601991F00044606 /* RadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE0E3742601991E00044606 /* RadioButton.m */; };
 		ABE0E3CB2601BAC500044606 /* TBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE0E3CA2601BAC500044606 /* TBNavigationController.m */; };
+		ABF6B1EB26379F8E00C5C688 /* LWFindMoreVC.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF6B1EA26379F8E00C5C688 /* LWFindMoreVC.m */; };
+		ABF6B1F126379FAE00C5C688 /* LWFindDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF6B1F026379FAE00C5C688 /* LWFindDetailViewController.m */; };
 		DD932B5A7199EF2C6C28CF56 /* libPods-LeWanProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B8D01C33095C315B34A264 /* libPods-LeWanProject.a */; };
 /* End PBXBuildFile section */
 
@@ -278,6 +280,10 @@
 		ABE0E3742601991E00044606 /* RadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioButton.m; sourceTree = "<group>"; };
 		ABE0E3C92601BAC500044606 /* TBNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNavigationController.h; sourceTree = "<group>"; };
 		ABE0E3CA2601BAC500044606 /* TBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNavigationController.m; sourceTree = "<group>"; };
+		ABF6B1E926379F8E00C5C688 /* LWFindMoreVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LWFindMoreVC.h; sourceTree = "<group>"; };
+		ABF6B1EA26379F8E00C5C688 /* LWFindMoreVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LWFindMoreVC.m; sourceTree = "<group>"; };
+		ABF6B1EF26379FAE00C5C688 /* LWFindDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LWFindDetailViewController.h; sourceTree = "<group>"; };
+		ABF6B1F026379FAE00C5C688 /* LWFindDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LWFindDetailViewController.m; sourceTree = "<group>"; };
 		C417393CB75E17D5FB11F075 /* Pods-LeWanProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeWanProject.debug.xcconfig"; path = "Target Support Files/Pods-LeWanProject/Pods-LeWanProject.debug.xcconfig"; sourceTree = "<group>"; };
 		C9B8D01C33095C315B34A264 /* libPods-LeWanProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeWanProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFF3DA2AA9D23B9F36ADDAD3 /* Pods-LeWanProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeWanProjectUITests.release.xcconfig"; path = "Target Support Files/Pods-LeWanProjectUITests/Pods-LeWanProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -509,6 +515,7 @@
 			children = (
 				AB21E1A72601E32D00F08DB9 /* LWHome */,
 				AB21E1A82601E32D00F08DB9 /* LWEditor */,
+				ABF6B1E826379F2B00C5C688 /* LWFind */,
 				AB21E1A92601E32D00F08DB9 /* LWMIne */,
 			);
 			path = MainClass;
@@ -750,6 +757,17 @@
 				ABE0E3CA2601BAC500044606 /* TBNavigationController.m */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		ABF6B1E826379F2B00C5C688 /* LWFind */ = {
+			isa = PBXGroup;
+			children = (
+				ABF6B1E926379F8E00C5C688 /* LWFindMoreVC.h */,
+				ABF6B1EA26379F8E00C5C688 /* LWFindMoreVC.m */,
+				ABF6B1EF26379FAE00C5C688 /* LWFindDetailViewController.h */,
+				ABF6B1F026379FAE00C5C688 /* LWFindDetailViewController.m */,
+			);
+			path = LWFind;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1014,6 +1032,7 @@
 				ABE0E3992601991F00044606 /* FGRequestEngine.m in Sources */,
 				ABE0E38E2601991F00044606 /* DGActivityIndicatorBallScaleAnimation.m in Sources */,
 				ABE0E39C2601991F00044606 /* FGRequestItem.m in Sources */,
+				ABF6B1F126379FAE00C5C688 /* LWFindDetailViewController.m in Sources */,
 				ABE0E3A92601991F00044606 /* LZHPersonalCenterView.m in Sources */,
 				ABE0E3962601991F00044606 /* DGActivityIndicatorRotatingTrigonAnimation.m in Sources */,
 				ABE0E3932601991F00044606 /* DGActivityIndicatorBallSpinFadeLoader.m in Sources */,
@@ -1031,6 +1050,7 @@
 				ABE0E3A62601991F00044606 /* LZHHeaderView.m in Sources */,
 				ABE0E39D2601991F00044606 /* ZScrollLabel.m in Sources */,
 				ABE0E38B2601991F00044606 /* DGActivityIndicatorRotatingSandglassAnimation.m in Sources */,
+				ABF6B1EB26379F8E00C5C688 /* LWFindMoreVC.m in Sources */,
 				AB21E1D32601F38300F08DB9 /* LWMineViewController.m in Sources */,
 				ABE0E3CB2601BAC500044606 /* TBNavigationController.m in Sources */,
 				AB21E1402601D42F00F08DB9 /* TBTabBar.m in Sources */,
@@ -1236,7 +1256,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeWanProject/Tools/YZLog",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeWanProjectqiming.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1264,7 +1284,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeWanProject/Tools/YZLog",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeWanProjectqiming.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;

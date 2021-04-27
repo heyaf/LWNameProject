@@ -10,6 +10,9 @@ target 'LeWanProject' do
 
 pod 'AFNetworking', :subspecs => ['Serialization', 'Security', 'NSURLSession', 'Reachability', 'Serialization']
 #  pod 'AFNetworking'
+
+  pod 'BaiduMobStatCodeless' 
+  pod 'GDTMobSDK'
   pod 'DBSphereTagCloud'
   pod 'MPFoldTransition'
   pod 'SDWebImage'

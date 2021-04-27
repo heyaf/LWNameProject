@@ -12,8 +12,11 @@
 #import "UIView+frameAdjust.h"
 #import "ZScrollLabel.h"
 #import <AdSupport/AdSupport.h>
+#import <GDTNativeExpressProAdManager.h>
+#import <GDTNativeExpressProAdView.h>
 
-@interface LWNameDetailViewController ()<CQScrollMenuViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface LWNameDetailViewController ()<GDTNativeExpressProAdManagerDelegate, GDTNativeExpressProAdViewDelegate,CQScrollMenuViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@property (nonatomic, strong) NSMutableArray *expressAdViews;
 
 @property (nonatomic,strong) CQScrollMenuView *menuView;
 @property (nonatomic,strong) UITableView *tableView;
@@ -29,6 +32,9 @@ PropertyString(shengxiao); //生肖
 PropertyString(shengxiaoYY); //生肖宜用
 PropertyString(shengxiaoJY); //生肖忌用
 
+@property (nonatomic, strong) GDTNativeExpressProAdManager *adManager;
+
+
 @end
 
 @implementation LWNameDetailViewController
@@ -40,8 +46,7 @@ PropertyString(shengxiaoJY); //生肖忌用
 
     
     self.navigationItem.title = @"解析";
-    self.contentLabel.text = @"名字不理想？大师提醒：改个大吉名平时多用，不改身份证也会有效促进好运";
-    [self.view addSubview:self.contentLabel];
+
  
     // 创建滚动菜单栏
     self.menuView = [[CQScrollMenuView alloc]initWithFrame:CGRectMake(0, kTopHeight+10, self.view.width, 30)];
@@ -50,18 +55,32 @@ PropertyString(shengxiaoJY); //生肖忌用
     self.menuView.titleArray = @[@"字词释义",@"三才五格",@"生肖属相",@"其他案例"];
     
     // tableView
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kTopHeight+10+30, self.view.width, KScreenHeight - (kTopHeight+10+30+20)) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, kTopHeight+10+30, self.view.width, KScreenHeight - (kTopHeight+10+30+20)-100) style:UITableViewStyleGrouped];
     [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     _tableView.rowHeight = UITableViewAutomaticDimension;
     
     [self creatNameListNetWorking];
+    [self setGDST];
+}
+-(void)setGDST{
+    GDTAdParams *adParams = [[GDTAdParams alloc] init];
+    adParams.adSize = CGSizeMake(kScreenWidth, 100);
+    adParams.maxVideoDuration = 30;
+    adParams.minVideoDuration = 5;
+    adParams.detailPageVideoMuted = YES;
+    adParams.videoMuted = YES;
+    adParams.videoAutoPlayOnWWAN = YES;
+    self.adManager = [[GDTNativeExpressProAdManager alloc] initWithPlacementId:kplacementId
+                                                                           adPrams:adParams];
+    self.adManager.delegate = self;
+    [self.adManager loadAd:1];
 }
 
 - (ZScrollLabel *)contentLabel {
     if (!_contentLabel) {
-        _contentLabel = [[ZScrollLabel alloc] initWithFrame:CGRectMake(10, KScreenHeight-20, self.view.frame.size.width-20, 15)];
+        _contentLabel = [[ZScrollLabel alloc] initWithFrame:CGRectMake(10, 10, self.view.frame.size.width-20, 15)];
         _contentLabel.textColor = KRedColor;
         _contentLabel.font = [UIFont systemFontOfSize:13.0f];
         _contentLabel.layer.borderWidth = 0.5;
@@ -142,34 +161,7 @@ PropertyString(shengxiaoJY); //生肖忌用
 
             [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
         }];
-//    
-//    [[SCCatWaitingHUD sharedInstance] animateWithInteractionEnabled:NO];
-//    [FGRequestCenter sendRequest:^(FGRequestItem * _Nonnull item) {
-//        //请求的路径
-//        item.api = @"jieming";
-//        //配置请求的参数
-//        item.parameters = @{
-//
-//                            
-//                            };
-//        //若此接口需要调用与默认配置的服务器不同,可在此修改separateServer属性
-//        //请求的间隔,避免频繁发送请求给服务器,默认是:2s,如有需要单独设置,也可修改默认值
-//        item.requestInterval = 2.f;
-//        //如果在间隔内发送请求,到时后是否继续处理,默认是NO,不做处理
-//        item.isFrequentContinue = NO;
-//        item.httpMethod = 1;
-//        //失败后重复次数,默认为0
-//        item.retryCount = 1;
-//    } onSuccess:^(id  _Nullable responseObject) {
-//        
-//        DLog(@"-%@",responseObject);
-//    } onFailure:^(NSError * _Nullable error) {
-//        [SVProgressHUD showErrorWithStatus:@"网络请求失败，请稍后重试"];
-//        [[SCCatWaitingHUD sharedInstance] stop];
-//
-//    } onFinished:^(id  _Nullable responseObject, NSError * _Nullable error) {
-//        
-//    }];
+
     
     
     
@@ -224,9 +216,8 @@ PropertyString(shengxiaoJY); //生肖忌用
         cell.textLabel.font = SYSTEMFONT(14.0);
         cell.textLabel.numberOfLines = 0;
     }else if (indexPath.section==3&&indexPath.row==0){
-        UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KScreenWidth, KScreenWidth)];
-        [cell addSubview:imageV];
-        imageV.image = IMAGE_NAMED(@"anli");
+        [cell addSubview:self.contentLabel];
+        self.contentLabel.text = @"名字不理想？大师提醒：改个大吉名平时多用，不改身份证也会有效促进好运";
 
     }else if (indexPath.section==1&&indexPath.row==0){
         cell.textLabel.text = @"三才解析：";
@@ -266,6 +257,7 @@ PropertyString(shengxiaoJY); //生肖忌用
         cell.textLabel.font = SYSTEMFONT(16.0);
         cell.textLabel.numberOfLines = 0;
     }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -360,6 +352,92 @@ PropertyString(shengxiaoJY); //生肖忌用
     
     ViewBorderRadius(view, 0, 0.3, KGrayColor);
     return view;
+}
+#pragma mark - GDTNativeExpressProAdManagerDelegete
+/**
+ * 拉取广告成功的回调
+ */
+- (void)gdt_nativeExpressProAdSuccessToLoad:(GDTNativeExpressProAdManager *)adManager views:(NSArray<__kindof GDTNativeExpressProAdView *> *)views
+{
+    NSLog(@"成功%s",__FUNCTION__);
+    self.expressAdViews = [NSMutableArray arrayWithArray:views];
+    if (self.expressAdViews.count) {
+        [self.expressAdViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            GDTNativeExpressProAdView *adView = (GDTNativeExpressProAdView *)obj;
+            adView.controller = self;
+            adView.delegate = self;
+            [adView render];
+            NSLog(@"eCPM:%ld eCPMLevel:%@", [adView eCPM], [adView eCPMLevel]);
+        }];
+    }
+    UIView *view = [self.expressAdViews objectAtIndex:0];
+    UIView *adbgView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-20-200, kScreenWidth, 200)];
+    [adbgView addSubview:view];
+    [self.view addSubview:adbgView];
+}
+
+/**
+ * 拉取广告失败的回调
+ */
+- (void)gdt_nativeExpressProAdFailToLoad:(GDTNativeExpressProAdManager *)adManager error:(NSError *)error
+{
+    NSLog(@"%s",__FUNCTION__);
+    NSLog(@"Express Ad Load Fail : %@",error);
+}
+
+
+#pragma mark - GDTNativeExpressProAdViewDelegate;
+- (void)gdt_NativeExpressProAdViewRenderSuccess:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)gdt_NativeExpressProAdViewRenderFail:(GDTNativeExpressProAdView *)nativeExpressProAdView
+{
+    
+}
+
+- (void)gdt_NativeExpressProAdViewClicked:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)gdt_NativeExpressProAdViewClosed:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+    [nativeExpressAdView removeFromSuperview];
+    [self.tableView reloadData];
+    
+}
+
+- (void)gdt_NativeExpressProAdViewExposure:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)gdt_NativeExpressProAdViewWillPresentScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)gdt_NativeExpressProAdViewDidPresentScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)gdt_NativeExpressProAdViewWillDissmissScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)gdt_NativeExpressProAdViewDidDissmissScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
+{
+    NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)gdt_NativeExpressProAdView:(GDTNativeExpressProAdView *)nativeExpressProAdView playerStatusChanged:(GDTMediaPlayerStatus)status
+{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 @end

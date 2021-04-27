@@ -1,12 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "bianji.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "编辑(1).png",
+      "filename" : "findIcon_select.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
