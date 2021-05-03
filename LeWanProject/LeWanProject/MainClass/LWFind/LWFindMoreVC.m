@@ -46,6 +46,14 @@
 
     [self loadAdAndShow:nil];
 }
+-(void)viewWillAppear:(BOOL)animated{
+    BOOL ispaysuc = [kUserDefaults objectForKey:kVIPPaySuc];
+    if (ispaysuc) {
+        self.bannerView = nil;
+        
+    }
+
+}
 - (void)loadAdAndShow:(id)sender {
       if (self.bannerView.superview) {
           [self.bannerView removeFromSuperview];

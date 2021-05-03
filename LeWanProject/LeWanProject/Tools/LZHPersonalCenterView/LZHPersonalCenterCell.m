@@ -39,7 +39,7 @@
     }
 
     self.leftImg.frame = CGRectMake(20, (self.frame.size.height-25)/2, 25, 25) ;
-    self.titleLabel.frame = CGRectMake(55, 0, 100, self.frame.size.height) ;
+    self.titleLabel.frame = CGRectMake(55, 0, 150, self.frame.size.height) ;
     self.rightImg.frame = CGRectMake(self.frame.size.width-26, (self.frame.size.height-16)/2, 16, 16) ;
     self.rightExtendLabel.frame = CGRectMake(160, 0, self.frame.size.width-190, self.frame.size.height) ;
 }

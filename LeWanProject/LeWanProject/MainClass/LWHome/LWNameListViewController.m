@@ -12,16 +12,27 @@
 #import "LWNameModel.h"
 #import "LWNameDetailViewController.h"
 #import <AdSupport/AdSupport.h>
+<<<<<<< HEAD
 #import <GDTNativeExpressProAdManager.h>
 #import <GDTNativeExpressProAdView.h>
+#import <GDTNativeExpressRewardVideoAd.h>
 
-@interface LWNameListViewController ()<GDTNativeExpressProAdManagerDelegate, GDTNativeExpressProAdViewDelegate>
+@interface LWNameListViewController ()<GDTNativeExpressProAdManagerDelegate, GDTNativeExpressProAdViewDelegate,GDTNativeExpressRewardedVideoAdDelegate>
 PropertyString(bazi_guanjainzi); //八字关键字
 PropertyString(bazi_jiexi);  //八字解析
 PropertyNSMutableArray(NameArray);
 @property (nonatomic, strong) NSMutableArray *expressAdViews;
+@property (nonatomic, strong) GDTNativeExpressRewardVideoAd *rewardVideoAd;
 
 @property (nonatomic, strong) GDTNativeExpressProAdManager *adManager;
+=======
+
+
+@interface LWNameListViewController ()
+PropertyString(bazi_guanjainzi); //八字关键字
+PropertyString(bazi_jiexi);  //八字解析
+PropertyNSMutableArray(NameArray);
+>>>>>>> parent of 0c23411... 1.2.0版本提交审核
 @end
 
 @implementation LWNameListViewController
@@ -36,7 +47,40 @@ PropertyNSMutableArray(NameArray);
     [self creatGudingUI];
     [self creatNameListNetWorking];
 
-    [self setGDST];
+<<<<<<< HEAD
+    BOOL ispaysuc = [kUserDefaults objectForKey:kVIPPaySuc];
+    if (!ispaysuc) {
+        [self setJILISDK];
+        [self setGDST];
+
+
+    }
+}
+
+-(void)setJILISDK{
+    
+    
+
+    self.rewardVideoAd = [[GDTNativeExpressRewardVideoAd alloc] initWithPlacementId:kJIliAPI];
+         self.rewardVideoAd.delegate = self;
+         self.rewardVideoAd.videoMuted = NO; // 设置模板激励视频是否静音
+         [self.rewardVideoAd loadAd];
+}
+- (void)gdt_nativeExpressRewardVideoAdVideoDidLoad:(GDTNativeExpressRewardVideoAd *)expressRewardVideoAd
+{
+    NSLog(@"视频文件加载成功");
+    if (!self.rewardVideoAd.isAdValid) {
+        return;
+    }
+    [SXAlertView showWithTitle:@"是否开通VIP" message:@"VIP用户可以畅享无广告优质体验，是否立即开通" cancelButtonTitle:@"观看广告" otherButtonTitle:@"去开通" clickButtonBlock:^(SXAlertView * _Nonnull alertView, NSInteger buttonIndex) {
+        if (buttonIndex==1) {
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            KPostNotification(kSendMineVC, nil);
+        }else{
+            [self.rewardVideoAd showAdFromRootViewController:self];
+
+        }
+    }];
 }
 -(void)setGDST{
     GDTAdParams *adParams = [[GDTAdParams alloc] init];
@@ -50,6 +94,9 @@ PropertyNSMutableArray(NameArray);
                                                                            adPrams:adParams];
     self.adManager.delegate = self;
     [self.adManager loadAd:1];
+=======
+    
+>>>>>>> parent of 0c23411... 1.2.0版本提交审核
 }
 
 - (void)creatNameListNetWorking{
@@ -179,91 +226,6 @@ PropertyNSMutableArray(NameArray);
     label3.textColor =KGray2Color;
     [self.view addSubview:label3];
     
-}
-#pragma mark - GDTNativeExpressProAdManagerDelegete
-/**
- * 拉取广告成功的回调
- */
-- (void)gdt_nativeExpressProAdSuccessToLoad:(GDTNativeExpressProAdManager *)adManager views:(NSArray<__kindof GDTNativeExpressProAdView *> *)views
-{
-    NSLog(@"成功%s",__FUNCTION__);
-    self.expressAdViews = [NSMutableArray arrayWithArray:views];
-    if (self.expressAdViews.count) {
-        [self.expressAdViews enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            GDTNativeExpressProAdView *adView = (GDTNativeExpressProAdView *)obj;
-            adView.controller = self;
-            adView.delegate = self;
-            [adView render];
-            NSLog(@"eCPM:%ld eCPMLevel:%@", [adView eCPM], [adView eCPMLevel]);
-        }];
-    }
-    UIView *view = [self.expressAdViews objectAtIndex:0];
-    UIView *adbgView = [[UIView alloc] initWithFrame:CGRectMake(0, 240+80+20+80+20+20+140, kScreenWidth, 300)];
-    [adbgView addSubview:view];
-    [self.view addSubview:adbgView];
-}
-
-/**
- * 拉取广告失败的回调
- */
-- (void)gdt_nativeExpressProAdFailToLoad:(GDTNativeExpressProAdManager *)adManager error:(NSError *)error
-{
-    NSLog(@"%s",__FUNCTION__);
-    NSLog(@"Express Ad Load Fail : %@",error);
-}
-
-
-#pragma mark - GDTNativeExpressProAdViewDelegate;
-- (void)gdt_NativeExpressProAdViewRenderSuccess:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)gdt_NativeExpressProAdViewRenderFail:(GDTNativeExpressProAdView *)nativeExpressProAdView
-{
-    
-}
-
-- (void)gdt_NativeExpressProAdViewClicked:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)gdt_NativeExpressProAdViewClosed:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-    [nativeExpressAdView removeFromSuperview];
-    
-}
-
-- (void)gdt_NativeExpressProAdViewExposure:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)gdt_NativeExpressProAdViewWillPresentScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)gdt_NativeExpressProAdViewDidPresentScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)gdt_NativeExpressProAdViewWillDissmissScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)gdt_NativeExpressProAdViewDidDissmissScreen:(GDTNativeExpressProAdView *)nativeExpressAdView
-{
-    NSLog(@"%s",__FUNCTION__);
-}
-
-- (void)gdt_NativeExpressProAdView:(GDTNativeExpressProAdView *)nativeExpressProAdView playerStatusChanged:(GDTMediaPlayerStatus)status
-{
-    NSLog(@"%s",__FUNCTION__);
 }
 
 

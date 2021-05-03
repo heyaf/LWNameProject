@@ -11,7 +11,10 @@
 #import <WebKit/WKWebViewConfiguration.h>
 #import <WebKit/WKUserContentController.h>
 #import <WebKit/WKPreferences.h>
-@interface LWFindDetailViewController ()
+#import <GDTNativeExpressRewardVideoAd.h>
+@interface LWFindDetailViewController ()<GDTNativeExpressRewardedVideoAdDelegate>
+@property (nonatomic, strong) GDTNativeExpressRewardVideoAd *rewardVideoAd;
+
 @property (nonatomic,strong) WKWebView *webView;
 @end
 
@@ -22,6 +25,37 @@
     self.navigationItem.title = self.titleStr;
 
     [self initWKWebView];
+    
+    BOOL ispaysuc = [kUserDefaults objectForKey:kVIPPaySuc];
+    if (!ispaysuc) {
+        [self setJILISDK];
+
+    }
+}
+-(void)setJILISDK{
+    
+    
+
+    self.rewardVideoAd = [[GDTNativeExpressRewardVideoAd alloc] initWithPlacementId:kJIliAPI];
+         self.rewardVideoAd.delegate = self;
+         self.rewardVideoAd.videoMuted = NO; // 设置模板激励视频是否静音
+         [self.rewardVideoAd loadAd];
+}
+- (void)gdt_nativeExpressRewardVideoAdVideoDidLoad:(GDTNativeExpressRewardVideoAd *)expressRewardVideoAd
+{
+    NSLog(@"视频文件加载成功");
+    if (!self.rewardVideoAd.isAdValid) {
+        return;
+    }
+    [SXAlertView showWithTitle:@"是否开通VIP" message:@"VIP用户可以畅享无广告优质体验，是否立即开通" cancelButtonTitle:@"观看广告" otherButtonTitle:@"去开通" clickButtonBlock:^(SXAlertView * _Nonnull alertView, NSInteger buttonIndex) {
+        if (buttonIndex==1) {
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            KPostNotification(kSendMineVC, nil);
+        }else{
+            [self.rewardVideoAd showAdFromRootViewController:self];
+
+        }
+    }];
 }
 
 - (void)initWKWebView

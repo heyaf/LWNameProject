@@ -9,6 +9,7 @@
 /*-------各.h文件------*/
 #import "AppDelegate.h"
 #import "ZTTextField.h"
+#import "ZXTextField.h"
 
 #import "RadioButton.h"
 #import "FGRequestCenter.h"
@@ -31,13 +32,14 @@
 
 
 
-#define kGDTSDKAPPID @"1111782284"
-#define kGDTSDKBanner @"7031284201117274"
-#define KGDTSDKKaiPin @"2021087271409693"
-#define kplacementId @"7061484201415296"
 
 
 
+
+#define kJIliAPI @"2001782384563261"
+
+#define kVIPPaySuc @"KVIPPay"
+#define kSendMineVC @"kSendMineVC"
 
 //-------------------宏定义-----------------
 #ifndef Hong_h

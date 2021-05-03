@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047E9DB6263EE581008E9E39 /* LWMinePayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E9DB5263EE581008E9E39 /* LWMinePayViewController.m */; };
+		047E9DC5263EE8D3008E9E39 /* WGInPurchaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E9DC3263EE8D3008E9E39 /* WGInPurchaseController.m */; };
 		04B5D631225CE0B5008B67FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5D630225CE0B5008B67FC /* AppDelegate.m */; };
 		04B5D634225CE0B5008B67FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B5D633225CE0B5008B67FC /* ViewController.m */; };
 		04B5D637225CE0B5008B67FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B5D635225CE0B5008B67FC /* Main.storyboard */; };
@@ -92,8 +94,6 @@
 		ABE0E3A92601991F00044606 /* LZHPersonalCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE0E3702601991E00044606 /* LZHPersonalCenterView.m */; };
 		ABE0E3AA2601991F00044606 /* RadioButton.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE0E3742601991E00044606 /* RadioButton.m */; };
 		ABE0E3CB2601BAC500044606 /* TBNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE0E3CA2601BAC500044606 /* TBNavigationController.m */; };
-		ABF6B1EB26379F8E00C5C688 /* LWFindMoreVC.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF6B1EA26379F8E00C5C688 /* LWFindMoreVC.m */; };
-		ABF6B1F126379FAE00C5C688 /* LWFindDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF6B1F026379FAE00C5C688 /* LWFindDetailViewController.m */; };
 		DD932B5A7199EF2C6C28CF56 /* libPods-LeWanProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B8D01C33095C315B34A264 /* libPods-LeWanProject.a */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +116,10 @@
 
 /* Begin PBXFileReference section */
 		034E6A7363A2C1117996564D /* Pods-LeWanProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeWanProjectTests.debug.xcconfig"; path = "Target Support Files/Pods-LeWanProjectTests/Pods-LeWanProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
+		047E9DB4263EE581008E9E39 /* LWMinePayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LWMinePayViewController.h; sourceTree = "<group>"; };
+		047E9DB5263EE581008E9E39 /* LWMinePayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LWMinePayViewController.m; sourceTree = "<group>"; };
+		047E9DC3263EE8D3008E9E39 /* WGInPurchaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WGInPurchaseController.m; sourceTree = "<group>"; };
+		047E9DC4263EE8D3008E9E39 /* WGInPurchaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WGInPurchaseController.h; sourceTree = "<group>"; };
 		04B5D62C225CE0B5008B67FC /* LeWanProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LeWanProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B5D62F225CE0B5008B67FC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		04B5D630225CE0B5008B67FC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -280,10 +284,6 @@
 		ABE0E3742601991E00044606 /* RadioButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadioButton.m; sourceTree = "<group>"; };
 		ABE0E3C92601BAC500044606 /* TBNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBNavigationController.h; sourceTree = "<group>"; };
 		ABE0E3CA2601BAC500044606 /* TBNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBNavigationController.m; sourceTree = "<group>"; };
-		ABF6B1E926379F8E00C5C688 /* LWFindMoreVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LWFindMoreVC.h; sourceTree = "<group>"; };
-		ABF6B1EA26379F8E00C5C688 /* LWFindMoreVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LWFindMoreVC.m; sourceTree = "<group>"; };
-		ABF6B1EF26379FAE00C5C688 /* LWFindDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LWFindDetailViewController.h; sourceTree = "<group>"; };
-		ABF6B1F026379FAE00C5C688 /* LWFindDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LWFindDetailViewController.m; sourceTree = "<group>"; };
 		C417393CB75E17D5FB11F075 /* Pods-LeWanProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeWanProject.debug.xcconfig"; path = "Target Support Files/Pods-LeWanProject/Pods-LeWanProject.debug.xcconfig"; sourceTree = "<group>"; };
 		C9B8D01C33095C315B34A264 /* libPods-LeWanProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LeWanProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFF3DA2AA9D23B9F36ADDAD3 /* Pods-LeWanProjectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LeWanProjectUITests.release.xcconfig"; path = "Target Support Files/Pods-LeWanProjectUITests/Pods-LeWanProjectUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -319,6 +319,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		047E9DC2263EE8D3008E9E39 /* WGInPurchaseController */ = {
+			isa = PBXGroup;
+			children = (
+				047E9DC3263EE8D3008E9E39 /* WGInPurchaseController.m */,
+				047E9DC4263EE8D3008E9E39 /* WGInPurchaseController.h */,
+			);
+			path = WGInPurchaseController;
+			sourceTree = "<group>";
+		};
 		04B5D623225CE0B5008B67FC = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +403,7 @@
 		04B5D685225E2E66008B67FC /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				047E9DC2263EE8D3008E9E39 /* WGInPurchaseController */,
 				AB21E17C2601D8C900F08DB9 /* UIView+TBFrame.h */,
 				AB21E17D2601D8C900F08DB9 /* UIView+TBFrame.m */,
 				ABE0E35D2601991E00044606 /* 滚动菜单栏 */,
@@ -515,7 +525,6 @@
 			children = (
 				AB21E1A72601E32D00F08DB9 /* LWHome */,
 				AB21E1A82601E32D00F08DB9 /* LWEditor */,
-				ABF6B1E826379F2B00C5C688 /* LWFind */,
 				AB21E1A92601E32D00F08DB9 /* LWMIne */,
 			);
 			path = MainClass;
@@ -552,6 +561,8 @@
 				AB21E1D22601F38300F08DB9 /* LWMineViewController.m */,
 				AB21E1D72601F42300F08DB9 /* LWDetailSubViewController.h */,
 				AB21E1D82601F42300F08DB9 /* LWDetailSubViewController.m */,
+				047E9DB4263EE581008E9E39 /* LWMinePayViewController.h */,
+				047E9DB5263EE581008E9E39 /* LWMinePayViewController.m */,
 			);
 			path = LWMIne;
 			sourceTree = "<group>";
@@ -757,17 +768,6 @@
 				ABE0E3CA2601BAC500044606 /* TBNavigationController.m */,
 			);
 			path = Navigation;
-			sourceTree = "<group>";
-		};
-		ABF6B1E826379F2B00C5C688 /* LWFind */ = {
-			isa = PBXGroup;
-			children = (
-				ABF6B1E926379F8E00C5C688 /* LWFindMoreVC.h */,
-				ABF6B1EA26379F8E00C5C688 /* LWFindMoreVC.m */,
-				ABF6B1EF26379FAE00C5C688 /* LWFindDetailViewController.h */,
-				ABF6B1F026379FAE00C5C688 /* LWFindDetailViewController.m */,
-			);
-			path = LWFind;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1032,7 +1032,6 @@
 				ABE0E3992601991F00044606 /* FGRequestEngine.m in Sources */,
 				ABE0E38E2601991F00044606 /* DGActivityIndicatorBallScaleAnimation.m in Sources */,
 				ABE0E39C2601991F00044606 /* FGRequestItem.m in Sources */,
-				ABF6B1F126379FAE00C5C688 /* LWFindDetailViewController.m in Sources */,
 				ABE0E3A92601991F00044606 /* LZHPersonalCenterView.m in Sources */,
 				ABE0E3962601991F00044606 /* DGActivityIndicatorRotatingTrigonAnimation.m in Sources */,
 				ABE0E3932601991F00044606 /* DGActivityIndicatorBallSpinFadeLoader.m in Sources */,
@@ -1050,9 +1049,14 @@
 				ABE0E3A62601991F00044606 /* LZHHeaderView.m in Sources */,
 				ABE0E39D2601991F00044606 /* ZScrollLabel.m in Sources */,
 				ABE0E38B2601991F00044606 /* DGActivityIndicatorRotatingSandglassAnimation.m in Sources */,
+<<<<<<< HEAD
 				ABF6B1EB26379F8E00C5C688 /* LWFindMoreVC.m in Sources */,
+				047E9DC5263EE8D3008E9E39 /* WGInPurchaseController.m in Sources */,
+=======
+>>>>>>> parent of 0c23411... 1.2.0版本提交审核
 				AB21E1D32601F38300F08DB9 /* LWMineViewController.m in Sources */,
 				ABE0E3CB2601BAC500044606 /* TBNavigationController.m in Sources */,
+				047E9DB6263EE581008E9E39 /* LWMinePayViewController.m in Sources */,
 				AB21E1402601D42F00F08DB9 /* TBTabBar.m in Sources */,
 				ABE0E38A2601991F00044606 /* DGActivityIndicatorBallTrianglePathAnimation.m in Sources */,
 				ABE0E3792601991E00044606 /* DGActivityIndicatorTripleRingsAnimation.m in Sources */,
@@ -1256,7 +1260,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeWanProject/Tools/YZLog",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeWanProjectqiming.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1284,7 +1288,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/LeWanProject/Tools/YZLog",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeWanProjectqiming.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;

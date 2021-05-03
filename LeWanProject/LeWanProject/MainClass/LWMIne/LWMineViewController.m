@@ -9,6 +9,7 @@
 #import "LWMineViewController.h"
 #import "LZHPersonalCenterView.h"
 #import "LWDetailSubViewController.h"
+#import "LWMinePayViewController.h"
 @interface LWMineViewController ()<LZHPersonalCenterViewDelegate>
 
 @end
@@ -19,11 +20,11 @@
     [super viewDidLoad];
 
     
-    NSArray * centerArr = @[@[@"使用说明",@"清除缓存"],@[@"隐私条款",@"关于"],@[@"反馈"]] ;
+    NSArray * centerArr = @[@[@"升级VIP纯净版"],@[@"使用说明",@"清除缓存"],@[@"隐私条款",@"关于"],@[@"反馈"]] ;
     LZHPersonalCenterView * pcv = [[LZHPersonalCenterView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) CenterArr:centerArr isShowHeader:YES];
     pcv.delegate = self ;
     //按需求定是否需要
-    pcv.extendCenterRightArr = @[@[@"",@""],@[@"",@"",@""],@[@""]] ;
+    pcv.extendCenterRightArr = @[@[@""],@[@"",@""],@[@"",@"",@""],@[@""]] ;
     [self.view addSubview:pcv];
 }
 
@@ -56,6 +57,15 @@
         detailVC.message = @"用着不爽？想吐槽我们？或者有好的建议与意见，欢迎联系我们的客服小哥\n我们会尽力解决的哦。\n\n客服微信:ccc666888ooo (ps:请备注好App名称)";
         [self.navigationController pushViewController:detailVC animated:YES];
        
+    }else if ([title isEqualToString:@"升级VIP纯净版"]){
+        
+        BOOL hasPay = [kUserDefaults objectForKey:kVIPPaySuc];
+        if (hasPay) {
+            [SVProgressHUD showSuccessWithStatus:@"您已经是VIP会员，无需重复购买"];
+            return;
+        }
+        LWMinePayViewController *payVC = [[LWMinePayViewController alloc] init];
+        [self.navigationController pushViewController:payVC animated:YES];
     }
 }
 

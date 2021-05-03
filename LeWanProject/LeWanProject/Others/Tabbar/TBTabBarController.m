@@ -14,7 +14,6 @@
 #import "LWGetNameViewController.h"
 #import "LWChargeNameViewController.h"
 #import "LWMineViewController.h"
-#import "LWFindMoreVC.h"
 
 @interface TBTabBarController ()<UITabBarControllerDelegate>
 @property (nonatomic,strong) UITabBarAppearance *tabBarAppearance;
@@ -31,22 +30,7 @@
     [self setUpChildVC];
     
  
-
-    
-//    TBTabBar *tabBar = [[TBTabBar alloc] init];
-//    tabBar.hasAddBtn = NO;
-//
-//
-//    [self setValue:tabBar forKey:@"tabBar"];
-//
-//
-//    [tabBar setDidClickPublishBtn:^{
-//
-////        PushViewController *hmpositionVC = [[PushViewController alloc] init];
-////        TBNavigationController *nav = [[TBNavigationController alloc] initWithRootViewController:hmpositionVC];
-////        [self presentViewController:nav animated:YES completion:nil];
-//
-//    }];
+    [kNotificationCenter addObserver:self selector:@selector(gomineVC) name:kSendMineVC object:nil];
     
 
     
@@ -103,8 +87,6 @@
 
     [self setChildVC:[LWGetNameViewController new] title:@"起名" image:@"home" selectedImage:@"home_select"];
     [self setChildVC:[LWChargeNameViewController new] title:@"测名" image:@"bianji" selectedImage:@"bianji_select"];
-    [self setChildVC:[LWFindMoreVC new] title:@"更多" image:@"findIcon" selectedImage:@"findIcon_select"];
-
     [self setChildVC:[LWMineViewController new] title:@"我的" image:@"mine" selectedImage:@"mine_select"];
 
 }
@@ -190,5 +172,7 @@
     [[(UIView *)tabbarbuttonArray[index] layer]
      addAnimation:pulse forKey:nil]; 
 }
-
+-(void)gomineVC{
+    self.selectedIndex = 3;
+}
 @end

@@ -46,9 +46,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>mtj_appkey</key>
-	<string>623e217bb4</string>
-	<key>mtj_deubglog</key>
-	<string>0</string>
 </dict>
 </plist>

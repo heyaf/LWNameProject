@@ -11,7 +11,7 @@
 #import "LWNameListViewController.h"
 #import <PGDatePicker/PGDatePickManager.h>
 #import <AdSupport/AdSupport.h>
-#import "ZXTextField.h"
+
 @interface LWGetNameViewController ()<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong)ZXTextField *textfile1;
@@ -295,6 +295,7 @@ PropertyString(bazi_id);
                         @"ver":@"1.8",
                         @"idfa":[self getIDFA],
                         @"user_id":@""
+
                         };
     NSString *urlStr = @"get_bazi_id";
 
